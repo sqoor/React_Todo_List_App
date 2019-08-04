@@ -34,12 +34,22 @@ export default class App extends Component {
   // changeData = () => {
   //   this.setState({ data: 'Alice Zaheer' });
   // }
+  toggleCompleted = (id) => {
+    this.setState({
+      tasks: this.state.tasks.filter(element => {
+          if(element.id === id) {
+            element.isCompleted = !element.isCompleted
+          }
+          return element;
+      })
+    })
+  }
   render() {
     const { tasks } = this.state;
     return (
       <React.Fragment>
         <h6>App</h6>
-        <Todos tasks={tasks} a={4} />
+        <Todos tasks={tasks} a={4} toggleCompleted={this.toggleCompleted} />
       </React.Fragment >
     );
   }
