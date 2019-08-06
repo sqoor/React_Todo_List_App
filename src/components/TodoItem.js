@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 
 export default class TodoItem extends Component {
-  // toggleComplete = (e) => {
-  //   console.log(e.target.checked)
-  // }
+
   render() {
     const { id, title, isCompleted } = this.props.task;
-
-
-    // 
 
     return (
       <React.Fragment>
@@ -25,6 +20,3 @@ export default class TodoItem extends Component {
     );
   }
 }
-
-// line-through
-// checked={isCompleted}
