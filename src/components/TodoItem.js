@@ -12,13 +12,14 @@ export default class TodoItem extends Component {
 
     return (
       <React.Fragment>
-        {/* <h6>TodoItem</h6> */}
         <p style={{
           textDecoration: (isCompleted) ? 'line-through' : 'none'
         }}>
           <input checked={isCompleted} type="checkbox" onChange={this.props.toggleCompleted.bind(this, id)} />
-          {title}</p>
-
+          {' '}
+          {title}
+          <button onClick={this.props.deleteTask.bind(this, id)} className="float-right btn btn-outline-danger">X</button>
+          </p>
       </React.Fragment>
 
     );

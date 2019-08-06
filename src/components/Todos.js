@@ -5,8 +5,12 @@ export default class Todos extends Component {
     const { tasks, toggleCompleted } = this.props;
     return (
       <React.Fragment>
-        <h6>Todos</h6>
-        {tasks.map((elem, i) => <TodoItem key={i} task={elem} toggleCompleted={toggleCompleted} />)}
+        {tasks.map((elem, i) => {
+          return <TodoItem key={i}
+            task={elem}
+            toggleCompleted={toggleCompleted}
+            deleteTask={this.props.deleteTask} />
+        })}
       </React.Fragment>
     );
   }

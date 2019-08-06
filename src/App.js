@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Todos from './components/Todos';
+import AddToDo from './components/AddToDo';
 
 export default class App extends Component {
   state = {
@@ -31,26 +32,48 @@ export default class App extends Component {
       }
     ]
   };
-  // changeData = () => {
-  //   this.setState({ data: 'Alice Zaheer' });
-  // }
+
+  addTask = (somethingToDo) => {
+    if (somethingToDo) {
+      const newTask = {
+        id: this.state.tasks.length + 1,
+        title: somethingToDo,
+        isCompleted: false
+      }
+
+      this.setState({
+        tasks: [...this.state.tasks, newTask]
+      });
+    }
+  }
+
+  deleteTask = (id) => {
+    this.setState({
+      tasks: this.state.tasks.filter(task => task.id !== id)
+    });
+  }
+
   toggleCompleted = (id) => {
     this.setState({
       tasks: this.state.tasks.filter(element => {
-          if(element.id === id) {
-            element.isCompleted = !element.isCompleted
-          }
-          return element;
+        if (element.id === id) {
+          element.isCompleted = !element.isCompleted
+        }
+        return element;
       })
     })
   }
   render() {
     const { tasks } = this.state;
     return (
-      <React.Fragment>
-        <h6>App</h6>
-        <Todos tasks={tasks} a={4} toggleCompleted={this.toggleCompleted} />
-      </React.Fragment >
+      <div className="container mt-5">
+        <AddToDo addTask={this.addTask} />
+        <Todos
+          tasks={tasks}
+          toggleCompleted={this.toggleCompleted}
+          deleteTask={this.deleteTask}
+        />
+      </div >
     );
   }
 }
