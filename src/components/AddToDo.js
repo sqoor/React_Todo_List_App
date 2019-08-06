@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 export class AddToDo extends Component {
     addTask = (e) => {
         e.preventDefault();
-        this.props.addTask(this.inputField.value);
+        var sometingToDo = (this.inputField.value).trim();
+        this.props.addTask(sometingToDo);
     }
 
     render() {

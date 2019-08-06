@@ -1,12 +1,15 @@
 const bodyParser = require('body-parser')
+const cors = require('cors');
 const express = require('express');
 const app = express();
 
+
 app.use(bodyParser.json());       
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors());
 
 
-const tasks = [
+let tasks = [
     {
         id: 1,
         title: "Download Zoom",
@@ -31,8 +34,14 @@ const tasks = [
         id: 5,
         title: "Watch Movie",
         isCompleted: false
+    },
+    {
+        id: 6,
+        title: "Water the trees",
+        isCompleted: false
     }
 ];
+
 
 app.get('/', (req, res) => {
     res.send('homepage');
@@ -43,8 +52,8 @@ app.get('/tasks', (req, res) => {
 });
 
 app.get('/tasks/:id', (req, res) => {
-    const requestTaskId = parseInt(req.params.id);
-    const requestedTask = tasks.filter(t => t.id === requestTaskId)
+    const requestedTaskId = parseInt(req.params.id);
+    const requestedTask = tasks.filter(t => t.id === requestedTaskId)
 
     res.json(requestedTask);
 });
@@ -52,22 +61,32 @@ app.get('/tasks/:id', (req, res) => {
 app.post('/tasks', (req, res) => {
     const newTask = req.body;
     newTask.id = tasks.length + 1;
-    tasks.shift(newTask);
-
-    console.log(tasks);
-    console.log(newTask);
+    tasks.push(newTask);
 
     res.json(tasks);
 });
 
 app.delete('/tasks/:id', (req, res) => {
-    const toDeleteId = parseInt(req.params.id);
-    console.log(toDeleteId);
-    tasks = tasks.filter(t => t.id !== toDeleteId)
+    const toBeDeletedId = parseInt(req.params.id);
+    tasks = tasks.filter(t => t.id !== toBeDeletedId)
 
-    res.json(requestedTask);
+    res.json(tasks);
+});
+
+app.put('/tasks/:id', (req, res) => {
+    const toBeUpdateId = parseInt(req.params.id);
+    const newValue = req.body.isCompleted;
+
+    tasks = tasks.map(task => {
+        if(task.id === toBeUpdateId)
+            task.isCompleted = newValue
+        
+        return task;
+    });
+
+    res.json(tasks);
 });
 
 
-const PORT = 4000;
+const PORT = 4000 || process.env.PORT;
 app.listen(PORT, () => console.log(`Listening to port ${PORT}...`));
